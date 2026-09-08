@@ -22,15 +22,15 @@ function calculateBonusByProfit(index, total, seller) {
   const { profit } = seller;
   let percent = 0;
 
-  if (index === 0) {
-    percent = 15; // Первое место
-  } else if (index === 1 || index === 2) {
-    percent = 10; // Второе и третье место
-  } else if (index === total - 1) {
-    percent = 0; // Последнее место
-  } else {
-    percent = 5; // Все остальные
-  }
+  if (index === total - 1) {
+        return 0;
+    } else if (index === 0) {
+        return profit * 0.15;
+    } else if (index === 1 || index === 2) {
+        return profit * 0.10;
+    } else {
+        return profit * 0.05;
+    }
 
   return profit * (percent / 100);
 }
@@ -146,13 +146,12 @@ function analyzeSalesData(data, options) {
   });
 
   // @TODO: Подготовка итоговой коллекции с нужными полями
-  return sellerStats.map((seller) => ({
+ return sellerStats.map((seller) => ({
     seller_id: seller.id,
     name: seller.name,
-    revenue: +seller.revenue.toFixed(2),
-    profit: +seller.profit.toFixed(2),
+    revenue: seller.revenue.toFixed(2),
+    profit: seller.profit.toFixed(2),
     sales_count: seller.sales_count,
     top_products: seller.top_products,
-    bonus: +seller.bonus.toFixed(2),
-  }));
-}
+    bonus: seller.bonus.toFixed(2)
+}));
