@@ -95,7 +95,7 @@ function analyzeSalesData(data, options) {
       const product = productIndex[item.sku];
       if (!product) return;
 
-      // Выручка через calculateRevenue (НЕ используем total_amount!)
+      // Выручка
       const revenue = calculateRevenue(item, product);
 
       // Себестоимость
@@ -134,14 +134,14 @@ function analyzeSalesData(data, options) {
     seller.top_products = productsArray;
   });
 
-  // Формирование результата
+  // Формирование результата - НЕ ОКРУГЛЯЕМ revenue и profit!
   return sellerStats.map((seller) => ({
     seller_id: seller.id,
     name: seller.name,
-    revenue: parseFloat(seller.revenue.toFixed(2)),
-    profit: parseFloat(seller.profit.toFixed(2)),
+    revenue: seller.revenue,
+    profit: seller.profit,
     sales_count: seller.sales_count,
     top_products: seller.top_products,
-    bonus: parseFloat(seller.bonus.toFixed(2)),
+    bonus: parseFloat(seller.bonus.toFixed(2)), // бонус оставляем с 2 знаками
   }));
 }
